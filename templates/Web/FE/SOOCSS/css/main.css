@@ -148,3 +148,22 @@ input:required:after {
 #_User_PublicRegister div.pwd2 {
   clear: left;
 }
+
+
+input.datepicker.hasDatepicker {
+  height:34px;
+}
+
+/* --------------------------------------------------------------------------- */
+/* Tale:AddAll */
+/* --------------------------------------------------------------------------- */
+#Tale_AddAll div.Title,
+#Tale_AddAll div.Contents {
+  width:100% !important;
+}
+
+#Tale_AddAll div.Created,
+#Tale_AddAll div.Word1,
+#Tale_AddAll div.Content {
+  clear:left;
+}
