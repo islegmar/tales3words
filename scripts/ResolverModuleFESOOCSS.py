@@ -575,6 +575,12 @@ $(document).on('custom.ready', function(evt, widgetData){{""".format(**locals())
   
     return className
 
+  def printIsPublic(self):
+    if not self.currentItemCfg:
+      raise Exception("No currentItemCfg")
+
+    return "" if self.currentItemCfg['permission'] else "true"
+
   def printCollapsedClass(self):
     # Do not add anything, the panel will be shown as usual
     if not self.currentItemCfg or not self.currentItemCfg['collapsable']:
@@ -1152,15 +1158,15 @@ and be sure widgetData is accessible in your code""")
       if 'hide' in varData and varData['hide']: continue
 
       if varData['type']=='File':
-        buff += "<td><a class='{name}URL'>{name}URL</a></td>\n".format(**varData)
+        buff += "<td class='{name}URL'><a class='{name}URL'>{name}URL</a></td>\n".format(**varData)
       elif varData['type']=='Image':
-        buff += "<td><img class='{name}URL' width='50px'></img></td>\n".format(**varData)
+        buff += "<td class='{name}URL'><img class='{name}URL' width='50px'></img></td>\n".format(**varData)
       elif varData['type']=='URL':
-        buff += "<td><a class='{name}' href=''><span class='{name}'></span></a></td>\n".format(**varData)
+        buff += "<td class='{name}'><a class='{name}' href=''><span class='{name}'></span></a></td>\n".format(**varData)
       elif varData['type']=='FK':
         buff += "<td class='{name}{fieldName}'></td>\n".format(**varData)
       elif varData['type']=='Bool':
-        buff += "<td><input type='checkbox' disabled readonly value='1' class='{name}'/></td>\n".format(**varData)
+        buff += "<td class'{name}'><input type='checkbox' disabled readonly value='1' class='{name}'/></td>\n".format(**varData)
       else:
         buff += "<td class='{name}'></td>\n".format(**varData)
     

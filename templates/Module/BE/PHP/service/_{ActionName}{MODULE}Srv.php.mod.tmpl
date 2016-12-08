@@ -1,8 +1,6 @@
 <?php
 require_once(INTERNAL_ROOT_DIR . '/service/ServiceWebrad.php');
-require_once(INTERNAL_ROOT_DIR . '/BeanValidateException.php');
 require_once(INTERNAL_ROOT_DIR . '/utils/FactoryObject.php');
-require_once(INTERNAL_ROOT_DIR . '/utils/ValidateBeanData.php');
 require_once(INTERNAL_ROOT_DIR . '/security/ActionDeniedException.php');
 
 /**
@@ -34,10 +32,7 @@ class _{ActionName}{MODULE}Srv extends ServiceWebrad {
     $this->fillBean($obj);
     $this->updateInDatabase($obj);
 
-    // Return the minimum info 
-    return array(
-      "msgOK" => "{i18n({MODULE}:{ActionName}:OK)}"
-    );    
+    return $this->getReturnData($obj);
   }
 
   protected function getPermissionNeeded () {
@@ -71,15 +66,11 @@ EOD;
   // $this->getParamValue(<paramName>,<defaultValue>)
   // @param : $obj an empty instance of {MODULE} (used in some validators)
   public function validateInputData($obj) {  
-    $beanValidate = new ValidateBeanData();
+    $beanValidate = $this->getServiceValidate();
 
     {BeanValidations($obj, $beanValidate)}
 
-    // Return the errors (if any)
-    $errors = $beanValidate->getErrors(); 
-    if ( !empty($errors) ) {
-      throw new BeanValidateException($errors);
-    }
+    $this->assertNoErrors();
   }
 
   // Fill the Bean with data coming from the request
@@ -103,6 +94,12 @@ EOD;
   public function updateInDatabase($obj) {
     $obj->updateInDatabase();
   }  
+
+  protected function getReturnData($obj) {
+    return array(
+      "msgOK" => "{i18n({MODULE}:{ActionName}:OK)}"
+    );    
+  }
 
   // Methods for log info
   protected function getAction4Logger() {
